@@ -1,0 +1,53 @@
+Sub VerificarCertificadoPEM()
+    Dim caminhoPEM As String, conteudo As String
+    Dim i As Long, linhasOK As Boolean
+    
+    ' 👤 CAMINHO DO SEU CERTIFICADO
+    caminhoPEM = "C:\cert\seu_certificado.pem"  ' ← ALTERE AQUI
+    
+    ' 📖 LÊ ARQUIVO
+    If Dir(caminhoPEM) = "" Then
+        MsgBox "❌ Arquivo não encontrado: " & caminhoPEM, vbCritical
+        Exit Sub
+    End If
+    
+    Open caminhoPEM For Input As #1
+    conteudo = Input$(LOF(1), 1)
+    Close #1
+    
+    ' ✅ VERIFICA FORMATO PEM CORRETO
+    linhasOK = False
+    
+    If InStr(conteudo, "-----BEGIN CERTIFICATE-----") > 0 And _
+       InStr(conteudo, "-----END CERTIFICATE-----") > 0 Then
+        linhasOK = True
+        Range("A1").Value = "✅ FORMATO PEM CORRETO!"
+    Else
+        Range("A1").Value = "❌ ERRO: Não é PEM válido!"
+        Range("A2").Value = "Deve conter: -----BEGIN CERTIFICATE-----"
+        MsgBox "❌ Certificado inválido!" & vbCrLf & _
+               "Abra o arquivo .pem no Bloco de Notas e verifique:", vbCritical
+        Exit Sub
+    End If
+    
+    ' 📊 EXIBE CONTEÚDO FORMATADO
+    Range("A4").Value = "📋 CONTEÚDO DO CERTIFICADO:"
+    Range("A5").Value = conteudo
+    
+    ' 🔍 EXTRAI DADOS IMPORTANTES
+    Range("A10").Value = "🔑 INFORMAÇÕES EXTRAÍDAS:"
+    
+    If InStr(conteudo, "OAB") > 0 Then
+        Range("A11").Value = "✅ OAB detectado no certificado"
+    Else
+        Range("A11").Value = "⚠️  Verificar se OAB está cadastrada"
+    End If
+    
+    Range("A12").Value = "📏 Tamanho: " & Len(conteudo) & " caracteres"
+    Range("A13").Value = "📁 Caminho: " & caminhoPEM
+    
+    MsgBox "✅ CERTIFICADO ANALISADO!" & vbCrLf & _
+           "Resultado em A1-A13" & vbCrLf & _
+           IIf(linhasOK, "✅ FORMATO OK", "❌ CONSERTAR"), _
+           IIf(linhasOK, vbInformation, vbExclamation)
+End Sub
