@@ -1,0 +1,2 @@
+POST https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado
+--cert pdjud_a1.pfx --cert-type P12 --pass PDJUD2026@
