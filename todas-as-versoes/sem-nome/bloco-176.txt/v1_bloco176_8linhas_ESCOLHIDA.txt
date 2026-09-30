@@ -1,0 +1,8 @@
+' Premissa normativa
+regex.Pattern = "(?:Art|Lei|Súmula|Enunciado)\.?\s+\d+.*?(\n|Art|Da)"
+
+' Conclusão vinculante  
+regex.Pattern = "\b(?:donde|destarte|ante o exposto|diante do exposto)\b.*?(\n\n|DISPOSITIVO)"
+
+' Silogismo completo
+regex.Pattern = "Art\..*?(?=donde|destarte|ante).*?(?=ANULO|PROVIDO|IMPROCEDENTE)"
