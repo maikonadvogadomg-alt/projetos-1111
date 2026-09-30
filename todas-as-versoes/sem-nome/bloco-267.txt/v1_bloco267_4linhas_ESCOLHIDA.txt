@@ -1,0 +1,4 @@
+CPF: 094.941.286-48 ✓
+Chave PEM: 4096 bits ✓
+Token JWT: Bearer + 1h duração ✓
+Endpoint: /pdjude/api/auth/certificado ✓
