@@ -1,0 +1,123 @@
+<!DOCTYPE html^>
+    echo ^<html lang="pt-BR"^>
+    echo ^<head^>
+    echo     ^<meta charset="UTF-8"^>
+    echo     ^<meta name="viewport" content="width=device-width, initial-scale=1.0"^>
+    echo     ^<title^>${projectName}^</title^>
+    echo     ^<link rel="stylesheet" href="./style.css"^>
+    echo ^</head^>
+    echo ^<body^>
+    echo     ^<div id="app"^>
+    echo         ^<h1^>Bem-vindo ao ${projectName}^</h1^>
+    echo     ^</div^>
+    echo     ^<script src="./script.js"^</script^>
+    echo ^</body^>
+    echo ^</html^>
+) > index.html
+
+echo ✅ index.html criado
+
+(
+    echo * {
+    echo     margin: 0;
+    echo     padding: 0;
+    echo     box-sizing: border-box;
+    echo }
+    echo.
+    echo body {
+    echo     font-family: Arial, sans-serif;
+    echo     background-color: #0f172a;
+    echo     color: #e2e8f0;
+    echo }
+) > style.css
+
+echo ✅ style.css criado
+
+(
+    echo console.log('${projectName} iniciado!');
+) > script.js
+
+echo ✅ script.js criado
+
+(
+    echo {
+    echo   "name": "${safeName}",
+    echo   "version": "1.0.0"
+    echo }
+) > package.json
+
+echo ✅ package.json criado
+
+(
+    echo node_modules/
+    echo dist/
+    echo .env
+) > .gitignore
+
+echo ✅ .gitignore criado
+
+echo.
+echo 📦 Instalando dependências...
+call npm install
+
+echo.
+echo 🌐 Iniciando servidor local...
+echo ✅ Servidor rodando em: http://localhost:8000
+echo Pressione Ctrl+C para parar
+echo.
+
+call npm run dev
+
+pause`;
+    },
+
+    // ── GERAR SCRIPT POWERSHELL ──
+    generatePowerShellScript(projectName) {
+        const safeName = projectName.replace(/[<>:"|?*]/g, '').replace(/\s+/g, '_');
+        const projectPath = 'C:\\Projetos';
+
+        return `# Setup Automático - ${projectName}
+
+Write-Host "🚀 Iniciando setup do projeto: ${projectName}" -ForegroundColor Green
+Write-Host "📁 Caminho: ${projectPath}\\${safeName}" -ForegroundColor Cyan
+Write-Host ""
+
+if (-not (Test-Path "${projectPath}\\${safeName}")) {
+    New-Item -ItemType Directory -Path "${projectPath}\\${safeName}" | Out-Null
+    Write-Host "✅ Pasta criada" -ForegroundColor Green
+} else {
+    Write-Host "⚠️ Pasta já existe" -ForegroundColor Yellow
+}
+
+Set-Location "${projectPath}\\${safeName}"
+
+Write-Host ""
+Write-Host "📂 Criando estrutura de pastas..." -ForegroundColor Cyan
+
+@("src", "public", "assets", "assets\\icons", "assets\\images", ".github\\workflows") | ForEach-Object {
+    if (-not (Test-Path $_)) {
+        New-Item -ItemType Directory -Path $_ -Force | Out-Null
+    }
+}
+
+Write-Host "✅ Pastas criadas com sucesso" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "📄 Criando arquivos..." -ForegroundColor Cyan
+
+@"
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${projectName}</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Bem-vindo ao ${projectName}</h1>
+    </div>
+    <script src="./script.js"><\/script>
+</body>
+</html>
