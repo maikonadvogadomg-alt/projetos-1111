@@ -1,0 +1,20 @@
+POST  /auth/token          # Cria novo token (sem validar token existente)
+POST  /auth/refresh        # Troca refresh token (escrita direta)
+POST  /auth/revoke         # Revoga token (escrita direta)
+
+POST  /usuarios            # Cria novo usuário
+PUT   /usuarios/{id}       # Atualiza usuário completo
+PATCH /usuarios/{id}       # Atualiza usuário parcial
+DELETE /usuarios/{id}      # Remove usuário
+
+POST  /processos           # Inicia novo processo judicial
+PUT   /processos/{numero}  # Atualiza dados do processo
+PATCH /processos/{numero}  # Atualiza campos específicos
+DELETE /processos/{numero} # (se aplicável)
+
+POST  /peticoes            # Cria nova petição
+PUT   /peticoes/{id}       # Atualiza petição
+DELETE /peticoes/{id}      # Remove petição
+
+POST  /documentos          # Upload de documento
+DELETE /documentos/{id}    # Remove documento
