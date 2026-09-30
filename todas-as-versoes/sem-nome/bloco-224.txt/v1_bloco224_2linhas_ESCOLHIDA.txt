@@ -1,0 +1,2 @@
+https://api-publica.datajud.cnj.jus.br/[ALIAS]/_search?q=termo
+Authorization: Bearer SEU_TOKEN
