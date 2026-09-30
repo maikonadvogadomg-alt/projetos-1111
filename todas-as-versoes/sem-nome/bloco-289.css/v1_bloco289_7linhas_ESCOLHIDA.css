@@ -1,0 +1,7 @@
+Sub CriarCredencialPDJUD()
+    Dim http As Object: Set http = CreateObject("MSXML2.XMLHTTP")
+    http.Open "POST", "https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado", False
+    http.setRequestHeader "Content-Type", "application/json"
+    http.send "{\"cpf\":\"09494128648\",\"cnpj_oab\":\"19.984.848/0001-20\"}"
+    Range("A1") = http.responseText  ' Token gerado
+End Sub
