@@ -1,0 +1,4 @@
+[ ] Citação Súmula TNU 98 [web:30]
+[ ] Extrato Portaria COJEF [file:1] 
+[ ] Res. TRU 42/2025 divergência interna [file:2]
+[ ] Modelo Embargos → Uniformização automática
