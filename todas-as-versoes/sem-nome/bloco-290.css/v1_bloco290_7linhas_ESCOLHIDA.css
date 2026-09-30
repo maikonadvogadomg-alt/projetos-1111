@@ -1,0 +1,7 @@
+POST https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado
+Content-Type: application/json
+
+{
+  "cpf": "SEU_CPF",
+  "cnpj_oab": "19.984.848/0001-20"
+}
