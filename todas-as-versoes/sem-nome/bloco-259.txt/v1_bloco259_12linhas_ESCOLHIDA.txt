@@ -1,0 +1,12 @@
+Sub ImportarCertPDJUD()
+    ' Salva chave PEM como arquivo temporário
+    Open "C:\temp\pdjud.key" For Output As #1
+    Print #1, "-----BEGIN PRIVATE KEY-----"
+    Print #1, "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCwPDENUEIvn4ZB"
+    ' ... (cole todo conteúdo)
+    Print #1, "-----END PRIVATE KEY-----"
+    Close #1
+    
+    MsgBox "✅ Chave PEM salva: C:\temp\pdjud.key" & vbCrLf & _
+           "CPF: 094.941.286-48 pronto para PDJUD!"
+End Sub
