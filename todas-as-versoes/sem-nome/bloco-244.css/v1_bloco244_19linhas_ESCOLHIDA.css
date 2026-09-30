@@ -1,0 +1,19 @@
+Sub GerarTokenPDJUD()
+    Dim http As Object
+    Set http = CreateObject("MSXML2.XMLHTTP.6.0")
+    
+    ' Carregar certificado A1
+    http.setOption 2, "cert.p12" ' Caminho do certificado
+    
+    http.Open "POST", "https://eproc.tjmg.jus.br/pdjude/api/auth/token", False
+    http.setRequestHeader "Content-Type", "application/json"
+    http.setRequestHeader "OAB", "MG12345"
+    
+    http.Send "{""grant_type"": ""client_credentials"", ""client_id"": ""PDJUD-123456""}"
+    
+    If http.Status = 200 Then
+        Dim token As String
+        token = http.responseText
+        Debug.Print "Token: " & token
+    End If
+End Sub
