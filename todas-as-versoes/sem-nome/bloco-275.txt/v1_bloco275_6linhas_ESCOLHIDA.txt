@@ -1,0 +1,6 @@
+✅ OAB: 183712MG
+✅ Senha: token123456  
+✅ Endpoint: /pdjude/api/auth/oab
+✅ Header: Bearer TOKEN
+✅ Duração: 1 hora
+✅ Ambiente: homolog.eproc.tjmg.jus.br
