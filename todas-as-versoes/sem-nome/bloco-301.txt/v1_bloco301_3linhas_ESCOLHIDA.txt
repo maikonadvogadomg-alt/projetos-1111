@@ -1,0 +1,3 @@
+App: Google Authenticator / FreeOTP / Gov.br
+1º acesso: QR Code + 6 dígitos
+Demais: Certificado + 6 dígitos
