@@ -1,0 +1,3 @@
+GET    /qualquercoisa     # Apenas consulta
+HEAD   /qualquercoisa     # Apenas metadados
+OPTIONS /qualquercoisa   # Apenas opções
