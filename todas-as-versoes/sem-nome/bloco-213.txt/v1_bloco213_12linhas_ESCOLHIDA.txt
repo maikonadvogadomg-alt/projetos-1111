@@ -1,0 +1,12 @@
+1. JUIZ DE FORA (PRIMEIRA PRIORIDADE):
+   - eproc.trf6.jus.br → "Pesquisa Avançada"
+   - Filtros: Acórdão + [TESE_CENTRAL] + Turma + "2025-2026"
+   - Exporta XML para parsing automático
+
+2. ESCRITÓRIO DIGITAL TRF6:
+   - jurisprudencia.trf6.jus.br
+   - API REST: /acordaos?tese=[PALAVRAS_CHAVE]&dataIni=20240101
+   
+3. SÍTUS LOCALIZADORES:
+   - "TRF6 embargos omissão [ARTEFACTS]" 
+   - site:jurisprudencia.trf6.jus.br filetype:pdf "art.489"
