@@ -1,0 +1,63 @@
+Sub GerarTokenPDJUD_Completo()
+    ' ==================== SEUS DADOS REAIS ====================
+    Const CPF = "12345678901"           ' ← SEU CPF 11 dígitos
+    Const OAB_UF = "OAB/MG 123456"      ' ← Sua OAB completa
+    Const CNPJ = "12.345.678/0001-90"   ' ← Seu CNPJ escritório
+    Const CERT_PEM = "C:\cert\seu_certificado.pem"  ' ← Caminho PEM
+    Const SENHA_CERT = "sua_senha"      ' ← Senha do certificado
+    
+    ' ==================== HTTP COM CERTIFICADO ====================
+    Dim http As Object, urlPDJUD As String, jsonReq As String
+    Dim tokenFinal As String
+    
+    Set http = CreateObject("WinHttp.WinHttpRequest.5.1")
+    
+    ' 🎯 ENDPOINT PDJUD TJMG (homolog)
+    urlPDJUD = "https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado"
+    
+    ' 📦 JSON com TODOS seus dados
+    jsonReq = "{""cpf"": """ & CPF & """," &
+              """oab"": """ & OAB_UF & """," &
+              """cnpj"": """ & CNPJ & """," &
+              """tipo_autenticacao"": ""certificado_digital""}"
+    
+    ' 🔐 CARREGA CERTIFICADO PEM
+    http.SetClientCertificate CERT_PEM, SENHA_CERT
+    
+    With http
+        .Open "POST", urlPDJUD, False
+        .setRequestHeader "Content-Type", "application/json"
+        .setRequestHeader "X-CPF", CPF
+        .setRequestHeader "X-OAB", OAB_UF
+        .setRequestHeader "X-CNPJ", CNPJ
+        .setRequestHeader "User-Agent", "PDJUD-VBA/1.0"
+        .send jsonReq
+    End With
+    
+    ' ✅ RESULTADO NA PLANILHA
+    Range("A1").Value = "✅ TOKEN PDJUD GERADO:"
+    Range("A2").Value = "Status: " & http.Status & " - " & http.statusText
+    Range("A3").Value = "Resposta:"
+    Range("A4").Value = http.responseText
+    
+    ' 🔍 EXTRAI TOKEN DO JSON
+    If InStr(http.responseText, "access_token") > 0 Then
+        tokenFinal = Mid(http.responseText, InStr(http.responseText, """access_token"":""") + 15)
+        tokenFinal = Left(tokenFinal, InStr(tokenFinal, """") - 1)
+        
+        Range("A6").Value = "🔑 TOKEN PRONTO (copie esta linha):"
+        Range("A7").Value = "Authorization: Bearer " & tokenFinal
+        Range("A8").Value = "⏰ Válido até: " & Now + TimeSerial(1, 0, 0)
+        
+        MsgBox "✅ TOKEN PDJUD GERADO COM SUCESSO!" & vbCrLf & _
+               "Copie a célula A7 para usar em APIs!" & vbCrLf & _
+               "Status HTTP: " & http.Status, vbInformation
+    Else
+        MsgBox "❌ ERRO: " & http.Status & vbCrLf & _
+               http.responseText & vbCrLf & vbCrLf & _
+               "🔧 VERIFIQUE:" & vbCrLf & _
+               "• Certificado PEM válido OAB/MG" & vbCrLf & _
+               "• CPF/OAB/CNPJ cadastrados PDJUD" & vbCrLf & _
+               "• Senha correta do certificado", vbCritical
+    End If
+End Sub
