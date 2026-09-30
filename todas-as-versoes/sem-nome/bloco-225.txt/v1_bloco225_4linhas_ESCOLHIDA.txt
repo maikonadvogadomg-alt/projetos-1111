@@ -1,0 +1,4 @@
+1. Acessar portal → "Solicitar Credencial"
+2. Preencher: CPF + e-mail + nome + telefone
+3. Assinar Termo digital (Gov.br)
+4. Receber token Bearer por e-mail (24-72h)
