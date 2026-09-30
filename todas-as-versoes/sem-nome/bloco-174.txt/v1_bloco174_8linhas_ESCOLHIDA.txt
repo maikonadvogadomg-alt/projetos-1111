@@ -1,0 +1,8 @@
+# Tese vinculante
+\b(?:entende-se|firmou-se|consolidou-se)\b.*?(?=[\n\n]|Art\.)
+
+# Citação legislativa
+Art\.?\s+\d+(?:[.,]\d+)*(?:\s+(?:CPC|CC|CPP))?
+
+# Conclusão argumentativa
+\b(?:donde|destarte|conclui-se)\b
