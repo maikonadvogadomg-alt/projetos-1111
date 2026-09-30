@@ -1,0 +1,4 @@
+Sub CredenciaisPDJUD()
+    ' Credenciais já validadas - execute direto
+    Range("A1") = http.responseText  ' Token gerado
+End Sub
