@@ -1,0 +1,16 @@
+Sub ExtrairAcordao()
+' Cole texto acórdão na célula A1
+Dim texto As String, regex As Object
+Set regex = CreateObject("VBScript.RegExp")
+
+' Padrões TJMG/STJ
+regex.Pattern = "Relator:?\s*([A-ZÀ-Ú\s]+?)(?=\n|Relatora|Des)" 
+texto = Range("A1").Value
+
+' Extrai relator
+If regex.Test(texto) Then Range("B1") = regex.Execute(texto)(0).SubMatches(0)
+
+' Extrai tese (frases com "entende-se", "firmou-se")
+regex.Pattern = "(?:entende-se|firmou-se|consolidou-se)\s*(.+?)(?=\.(?:\s[A-Z]|$))"
+' etc...
+End Sub
