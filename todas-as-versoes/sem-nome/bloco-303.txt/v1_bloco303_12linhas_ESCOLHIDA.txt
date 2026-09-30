@@ -1,0 +1,12 @@
+Sub TestarTokenPDJUD()
+    Dim token As String: token = Range("A7").Value
+    Dim http As Object: Set http = CreateObject("MSXML2.XMLHTTP")
+    
+    http.Open "GET", "https://homolog.eproc.tjmg.jus.br/pdjude/api/processos?cpf=" & CPF, False
+    http.setRequestHeader "Authorization", token
+    http.send
+    
+    Range("B1").Value = "TESTE API:"
+    Range("B2").Value = http.responseText
+    MsgBox "✅ API funcionando!" & vbCrLf & Left(http.responseText, 200)
+End Sub
