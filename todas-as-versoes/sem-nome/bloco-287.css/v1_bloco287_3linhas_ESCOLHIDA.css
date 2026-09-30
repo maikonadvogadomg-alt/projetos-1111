@@ -1,0 +1,3 @@
+1. Autenticação API → https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado
+2. Dados JSON: {"cpf": "CPF", "cnpj_oab": "CNPJ_OAB"}
+3. Resposta: access_token (válido 1h)
