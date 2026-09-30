@@ -1,0 +1,5 @@
+TESE: "Acórdão omitiu pedido fls.45"
+BUSCA AUTO:
+✓ TRF6 Ac.5005123/2025: "Omissão=RETRATAÇÃO 92%"[web:519]
+✓ TNU Pedido 123456: Uniformização[file:2]
+✓ STJ REsp 1.987.654: "Embargos providos"
