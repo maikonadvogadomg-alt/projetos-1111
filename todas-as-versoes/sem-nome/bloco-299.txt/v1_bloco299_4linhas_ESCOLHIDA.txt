@@ -1,0 +1,4 @@
+1️⃣ ACESSE: https://www.jus.br
+2️⃣ PDPJ → Certificado A1/A3 OU Gov.br Ouro
+3️⃣ CONFIGURE MFA (QR Code → Google Authenticator)
+4️⃣ Token REAL gerado após 2FA
