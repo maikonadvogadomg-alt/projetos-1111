@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuração</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #0b1120;
+      --panel: #111827;
+      --text: #e5e7eb;
+      --border: #334155;
+      --primary: #2563eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 20px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .form-section h2 {
+      margin: 0 0 15px;
+      font-size: 14px;
+    }
+
+    .form-row {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #020617;
+      color: var(--text);
+      outline: none;
+      font-size: 12px;
+    }
+
+    input:focus { border-color: var(--primary); }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .status.show { display: block; }
+    .status.success { background: #064e3b; color: #a7f3d0; }
+    .status.error { background: #7f1d1d; color: #fecaca; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>⚙ Configuração</h1>
+
+    <div class="form-section">
+      <h2>OpenAI API</h2>
+      <div class="form-row">
+        <label for="openaiKey">API Key</label>
+        <input id="openaiKey" type="password" placeholder="sk-..." />
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>GitHub</h2>
+      <div class="form-row">
+        <label for="githubToken">Token</label>
+        <input id="githubToken" type="password" placeholder="ghp_..." />
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Google TTS</h2>
+      <div class="form-row">
+        <label for="googleTtsKey">API Key</label>
+        <input id="googleTtsKey" type="password" placeholder="..." />
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button id="saveBtn" class="primary">Salvar</button>
+      <button id="clearBtn" class="secondary">Limpar Tudo</button>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    let supabase = null;
+    let currentUser = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    async function initSupabase() {
+      const url = localStorage.getItem("supabase_url");
+      const key = localStorage.getItem("supabase_key");
+
+      if (!url || !key) return false;
+
+      supabase = window.supabase.createClient(url, key);
+
+      const { data: { user } } = await supabase.auth.getUser();
+      currentUser = user;
+
+      if (!currentUser) return false;
+
+      await loadConfig();
+      return true;
+    }
+
+    async function loadConfig() {
+      if (!supabase || !currentUser) return;
+
+      const { data } = await supabase
+        .from("user_configs")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .single();
+
+      if (data) {
+        $("openaiKey").value = data.openai_key || "";
+        $("githubToken").value = data.github_token || "";
+        $("googleTtsKey").value = data.google_tts_key || "";
+      }
+    }
+
+    async function saveConfig() {
+      if (!supabase || !currentUser) return;
+
+      const payload = {
+        user_id: currentUser.id,
+        openai_key: $("openaiKey").value,
+        github_token: $("githubToken").value,
+        google_tts_key: $("googleTtsKey").value
+      };
+
+      const { data: existing } = await supabase
+        .from("user_configs")
+        .select("id")
+        .eq("user_id", currentUser.id)
+        .single();
+
+      let result;
+
+      if (existing) {
+        result = await supabase
+          .from("user_configs")
+          .update(payload)
+          .eq("user_id", currentUser.id);
+      } else {
+        result = await supabase
+          .from("user_configs")
+          .insert(payload);
+      }
+
+      if (result.error) {
+        showStatus("Erro: " + result.error.message, "error");
+        return;
+      }
+
+      showStatus("Configuração salva com sucesso!", "success");
+    }
+
+    function showStatus(message, type = "success") {
+      const el = $("status");
+      el.className = "status show " + type;
+      el.textContent = message;
+
+      setTimeout(() => {
+        el.className = "status";
+      }, 3000);
+    }
+
+    $("saveBtn").addEventListener("click", saveConfig);
+
+    $("clearBtn").addEventListener("click", () => {
+      if (confirm("Limpar todas as configurações?")) {
+        $("openaiKey").value = "";
+        $("githubToken").value = "";
+        $("googleTtsKey").value = "";
+        saveConfig();
+      }
+    });
+
+    initSupabase().then(success => {
+      if (!success) {
+        showStatus("Erro ao conectar", "error");
+      }
+    });
+  </script>
+</body>
+</html>
