@@ -1,0 +1,4 @@
+POST   /qualquercoisa     # Sempre cria/registra
+PUT    /{id}/qualquercoisa # Sempre atualiza
+PATCH  /{id}/qualquercoisa # Sempre altera
+DELETE /{id}/qualquercoisa # Sempre remove
