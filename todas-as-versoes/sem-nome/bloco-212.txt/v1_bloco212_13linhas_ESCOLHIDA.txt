@@ -1,0 +1,13 @@
+
+**SAÍDA ESPERADA:** Petição INTERCALAR eproc TRF6, 98% persuasiva, score 84%, com jurisprudência/legislação atualizada, pronta-protocolar 15/01/2026."
+
+---
+
+**VBA AUTOMATIZAÇÃO (Cole Excel):**
+```vba
+Sub GerarPeticaoTRF6()
+    Dim Prompt As String
+    ' [COLE PROMPT ACIMA]
+    Range("A1").Value = Prompt
+    ' Substitua [DADOS] → ChatGPT → DOCX
+End Sub
