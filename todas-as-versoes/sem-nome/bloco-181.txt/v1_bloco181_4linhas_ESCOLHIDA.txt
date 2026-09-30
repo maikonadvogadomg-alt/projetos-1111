@@ -1,0 +1,4 @@
+Citação direta longa (>3 linhas): recuo 4cm, fonte 10, espaço simples  
+PRESCRIÇÃO. SÚMULA 150/STF: "Prescreve a execução no mesmo prazo de prescrição da ação."1  
+
+1 BRASIL. Supremo Tribunal Federal. Súmula 150. Brasília, DF, [data].
