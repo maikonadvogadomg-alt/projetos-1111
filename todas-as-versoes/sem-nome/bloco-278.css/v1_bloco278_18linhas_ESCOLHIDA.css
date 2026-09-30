@@ -1,0 +1,18 @@
+Sub TokenPDJUD_CPF09494128648()
+    Dim http As Object, json As String
+    
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    json = "{""cpf"":""09494128648"",""cnpj_oab"":""045100""}"
+    
+    http.Open "POST", "https://homolog.eproc.tjmg.jus.br/pdjude/api/auth/certificado", False
+    http.setRequestHeader "Content-Type", "application/json"
+    http.send json
+    
+    If http.Status = 200 Then
+        Range("A1") = "✅ TOKEN PDJUD:"
+        Range("A2") = http.responseText
+        MsgBox "Token salvo em A2! Válido 1h."
+    Else
+        MsgBox "Erro " & http.Status
+    End If
+End Sub
