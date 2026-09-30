@@ -1,0 +1,2 @@
+[Relator]: "[expressão modal] + [artigo legal] + [tese literal]"
+Ex: "Rel. Min. Nancy: 'Cumpre observar que o art. 489 CPC exige...'"
