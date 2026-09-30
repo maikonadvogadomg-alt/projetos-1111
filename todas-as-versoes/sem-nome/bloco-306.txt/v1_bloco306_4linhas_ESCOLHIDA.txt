@@ -1,0 +1,4 @@
+-----BEGIN CERTIFICATE-----
+MIID... (centenas de linhas base64)
+...muita linha...
+-----END CERTIFICATE-----
