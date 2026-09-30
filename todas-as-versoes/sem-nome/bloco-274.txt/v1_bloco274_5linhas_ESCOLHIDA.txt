@@ -1,0 +1,5 @@
+1. Instalar PJe Office Integration
+2. Configurar credenciais:
+   - OAB: 183712MG
+   - Token/Senha: 123456
+3. Token auto-gerado para assinatura
