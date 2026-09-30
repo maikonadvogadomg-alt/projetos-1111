@@ -1,0 +1,5 @@
+CPF: 094.941.286-48 ✓
+CNPJ OAB/MG: 045100 ✓
+Endpoint: /pdjude/api/auth/certificado ✓
+Header: Bearer TOKEN ✓
+Validade: 1 hora ✓
