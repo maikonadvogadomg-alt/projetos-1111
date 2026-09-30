@@ -1,0 +1,6 @@
+Sub InstalarCertPDJUD()
+    ' Importa PFX A1 para Windows Certificate Store
+    Dim shell As Object
+    Set shell = CreateObject("WScript.Shell")
+    shell.Run "certutil -importpfx ""pdjud_a1.pfx""", 0, True
+End Sub
