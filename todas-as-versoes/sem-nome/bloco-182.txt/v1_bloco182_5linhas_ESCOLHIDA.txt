@@ -1,0 +1,5 @@
+IDENTIFICAR em [DECISÃO]:  
+1. CONTRADIÇÃO súmula/artigo/decisão paradigmática  
+2. OMISSÃO tese firmada STJ/TRF6  
+3. ERRO MATERIAL: números/fatos/lei errada  
+OUTPUT: 3 tópicos prontos embargos
