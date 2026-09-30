@@ -1,0 +1,1 @@
+openssl req -new -key pdjud_private.key -out pdjud.csr -subj "/C=BR/ST=MG/L=Belo Horizonte/O='OAB-MG'/OU='Advocacia'/CN=pdjud.advogado.mg.oab.org.br/emailAddress=seunome@oabmg.org.br"
