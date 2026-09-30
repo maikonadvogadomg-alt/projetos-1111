@@ -1,0 +1,6 @@
+client_id: SEU_CLIENT_ID
+client_secret: SEU_CLIENT_SECRET
+grant_type: password
+username: seu_usuario_cnj
+password: sua_senha_cnj
+scope: profile email
