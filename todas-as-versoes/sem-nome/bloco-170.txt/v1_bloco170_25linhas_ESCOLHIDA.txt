@@ -1,0 +1,25 @@
+ANALISTA DE ACÓRDÃOS v2.0 - EXECUTE SEQUENCIALMENTE
+
+CONTEXTO: Jurista sênior TJMG/STJ. Extraia apenas partes CITÁVEIS para petições.
+
+TEXTO: [COLE ACÓRDÃO COMPLETO]
+
+1. **METADADOS** (1 linha cada):
+TRIBUNAL: | RELATOR: | DATA: | APELAÇÃO: | TEMA:
+
+2. **ELEMENTOS VINCULANTES** (tabela):
+| PARTE | TEXTO LITERAL | APLICAÇÃO |
+|-------|---------------|-----------|
+| TESE FIRMADA | | |
+| SÚMULAS CITADAS | | |
+| ARTIGOS LEGAIS | | |
+| VOTO VENCEDOR | | |
+
+3. **PALAVRAS-CHAVE eproc** (7 termos exatos):
+1. 2. 3. 4. 5. 6. 7.
+
+4. **FRASES PRONTAS PETIÇÃO**:
+AUTOR: "Conforme [RELATOR], [TESE] (Apel. [NÚMERO])"
+RÉU: "Divergência [NOME], que assentou..."
+
+OUTPUT: Máx. 400 palavras. Formato Markdown.
