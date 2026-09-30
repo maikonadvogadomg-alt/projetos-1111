@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground Jurídico</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #0b1120;
+      --panel: #111827;
+      --panel-2: #172033;
+      --editor: #020617;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #334155;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #059669;
+      --danger: #dc2626;
+    }
+
+    :root.light {
+      --bg: #f1f5f9;
+      --panel: #ffffff;
+      --panel-2: #e2e8f0;
+      --editor: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 6px 10px;
+      background: transparent;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: var(--panel-2);
+    }
+
+    button.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    button.primary:hover {
+      background: var(--primary-hover);
+    }
+
+    button.success {
+      background: var(--success);
+      color: white;
+    }
+
+    button.danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      min-height: 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      flex-wrap: wrap;
+      overflow-x: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      color: #60a5fa;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .project-title {
+      width: 140px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--editor);
+      outline: none;
+      color: var(--text);
+    }
+
+    .project-title:focus {
+      border-color: var(--primary);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .status {
+      display: none;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      white-space: pre-wrap;
+      max-height: 60px;
+      overflow-y: auto;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      color: #a7f3d0;
+      background: #064e3b;
+    }
+
+    .status.error {
+      color: #fecaca;
+      background: #7f1d1d;
+    }
+
+    .status.info {
+      color: #bfdbfe;
+      background: #1e3a8a;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 260px;
+      min-width: 220px;
+      padding: 10px;
+      border-right: 1px solid var(--border);
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .search {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--editor);
+      outline: none;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .project-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .project-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--panel-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .project-item:hover {
+      border-color: var(--primary);
+      background: var(--editor);
+    }
+
+    .project-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .project-name {
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-meta {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 3px;
+    }
+
+    .small-btn {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+    }
+
+    .workarea {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .editor-panel {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      border-right: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .editor-panel.collapsed {
+      display: none;
+    }
+
+    .preview-panel {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 9px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      font-size: 12px;
+    }
+
+    .editor-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 6px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 5px 8px;
+      font-size: 11px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .editor-wrap {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      background: var(--editor);
+    }
+
+    .line-numbers {
+      width: 40px;
+      padding: 8px 6px;
+      border-right: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: right;
+      user-select: none;
+      overflow: hidden;
+      background: var(--panel-2);
+    }
+
+    .code-editor {
+      flex: 1;
+      width: 100%;
+      padding: 8px 10px;
+      border: 0;
+      outline: none;
+      resize: none;
+      color: var(--text);
+      background: var(--editor);
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      tab-size: 2;
+    }
+
+    .preview-frame {
+      flex: 1;
+      width: 100%;
+      border: 0;
+      background: white;
+    }
+
+    .empty {
+      padding: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      background: rgb(0 0 0 / 70%);
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(500px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 20px 60px rgb(0 0 0 / 35%);
+    }
+
+    .modal h2 {
+      margin: 0 0 12px;
+      font-size: 15px;
+    }
+
+    .modal h3 {
+      margin: 12px 0 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .form-row {
+      margin-bottom: 10px;
+    }
+
+    .form-row label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-row input {
+      width: 100%;
+      padding: 7px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--editor);
+      outline: none;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .form-row input:focus {
+      border-color: var(--primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .config-status {
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      background: var(--editor);
+      font-size: 11px;
+      color: var(--muted);
+      white-space: pre-wrap;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .mobile-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .editor-panel {
+        width: 100%;
+      }
+
+      .project-title {
+        width: 100px;
+      }
+
+      .topbar {
+        min-height: 56px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      html, body {
+        overflow: auto;
+      }
+
+      .app {
+        min-height: 100vh;
+        height: auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .main {
+        flex-direction: column;
+        min-height: calc(100vh - 120px);
+      }
+
+      .editor-panel,
+      .preview-panel {
+        width: 100%;
+        height: 50vh;
+      }
+
+      .editor-panel.mobile-hidden,
+      .preview-panel.mobile-hidden {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: inline-flex;
+      }
+
+      .hide-mobile {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">⚖</span>
+        <span class="brand-name">Playground Jurídico</span>
+      </div>
+
+      <input id="projectTitle" class="project-title" value="Sem título" placeholder="Nome do projeto" />
+
+      <div class="toolbar">
+        <div class="btn-group">
+          <button id="mobileEditorBtn" class="mobile-toggle" title="Mostrar código">Código</button>
+          <button id="mobilePreviewBtn" class="mobile-toggle" title="Mostrar preview">Preview</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="autoRunBtn" class="primary" title="Executar automaticamente">◉ Ao vivo</button>
+          <button id="runBtn" class="primary" title="Executar agora">▶ Executar</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="importBtn" title="Importar arquivo">↑ Importar</button>
+          <button id="downloadBtn" title="Baixar código">↓ Baixar</button>
+          <button id="copyBtn" title="Copiar código">⧉ Copiar</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="saveLocalBtn" class="success" title="Salvar localmente">Salvar local</button>
+          <button id="saveCloudBtn" class="primary" title="Salvar no Supabase">Salvar Supabase</button>
+          <button id="openBtn" title="Abrir projeto">Abrir</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="configBtn" title="Configurar Supabase">Banco</button>
+          <button id="themeBtn" title="Alternar tema">☾</button>
+          <button id="resetBtn" title="Restaurar padrão">↺</button>
+          <button id="clearBtn" title="Limpar editor">⌫</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="status" class="status"></div>
+
+    <main class="main">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span>Projetos salvos</span>
+          <button id="refreshBtn" class="small-btn" title="Atualizar">↻</button>
+        </div>
+
+        <input id="searchInput" class="search" placeholder="Pesquisar..." />
+
+        <button id="importCsvBtn" style="width: 100%; margin-bottom: 8px; font-size: 11px;">
+          📥 Importar ZIP/CSV
+        </button>
+
+        <div id="projectList" class="project-list"></div>
+      </aside>
+
+      <section class="workarea">
+        <section id="editorPanel" class="editor-panel">
+          <div class="editor-tabs">
+            <button class="tab-btn active" data-tab="html">HTML</button>
+            <button class="tab-btn" data-tab="css">CSS</button>
+            <button class="tab-btn" data-tab="js">JS</button>
+            <button id="collapseBtn" class="small-btn" style="margin-left: auto;" title="Minimizar">‹</button>
+          </div>
+
+          <div class="editor-wrap">
+            <div id="lineNumbers" class="line-numbers">1</div>
+            <textarea id="codeEditor" class="code-editor" spellcheck="false"></textarea>
+          </div>
+        </section>
+
+        <section id="previewPanel" class="preview-panel">
+          <div class="panel-header">
+            <span>◉ Resultado</span>
+            <button id="expandEditorBtn" class="small-btn" style="display: none;" title="Mostrar editor">›</button>
+          </div>
+
+          <iframe
+            id="previewFrame"
+            class="preview-frame"
+            sandbox="allow-scripts allow-modals allow-forms allow-popups"
+            title="Preview"
+          ></iframe>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <input id="fileInput" type="file" hidden accept=".html,.css,.js,.txt,.zip" />
+  <input id="csvInput" type="file" hidden accept=".csv,text/csv" />
+
+  <!-- Modal Configuração -->
+  <div id="configModal" class="modal-backdrop">
+    <div class="modal">
+      <h2>Configuração Supabase</h2>
+
+      <h3>Project URL</h3>
+      <div class="form-row">
+        <input id="supabaseUrl" placeholder="https://seu-projeto.supabase.co" />
+      </div>
+
+      <h3>Chave Pública (anon)</h3>
+      <div class="form-row">
+        <input id="supabaseKey" type="password" placeholder="eyJ..." />
+      </div>
+
+      <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+        <button id="testSupabaseBtn" class="primary">Testar conexão</button>
+        <button id="clearSupabaseBtn">Limpar</button>
+      </div>
+
+      <div id="configStatus" class="config-status">Nenhum teste realizado.</div>
+
+      <div class="modal-actions">
+        <button id="closeConfigBtn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Abrir Projeto -->
+  <div id="openModal" class="modal-backdrop">
+    <div class="modal">
+      <h2>Abrir projeto</h2>
+
+      <input id="openSearchInput" class="search" placeholder="Pesquisar..." />
+
+      <div id="openProjectList" class="project-list"></div>
+
+      <div class="modal-actions">
+        <button id="closeOpenBtn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script id="app-script">
+    // Será continuado na PARTE 2
+  </script>
+</body>
+</html>
