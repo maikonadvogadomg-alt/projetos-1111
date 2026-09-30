@@ -1,0 +1,5 @@
+🔍 BUSCA AUTOMÁTICA JURISPRUDÊNCIA:
+1. eproc.trf6: "[TESE_CENTRAL] art.489/1ºIV" 2024-2026
+2. Parse 1ª/2ª Turma: Ac.nº + ementa + fls.decisivas
+3. Score: (TRF6=0.6 + TNU=0.2 + STJ=0.2)
+4. OUTPUT: 5 acórdãos com %provimento[file:web]
