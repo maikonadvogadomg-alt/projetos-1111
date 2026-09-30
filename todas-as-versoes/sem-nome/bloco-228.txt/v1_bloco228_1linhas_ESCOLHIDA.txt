@@ -1,0 +1,1 @@
+POST https://sso.cloud.pje.jus.br/auth/realms/pje/protocol/openid-connect/token
