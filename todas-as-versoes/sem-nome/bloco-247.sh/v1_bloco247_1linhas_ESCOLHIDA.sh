@@ -1,0 +1,1 @@
+openssl genrsa -out pdjud_private.key 4096
