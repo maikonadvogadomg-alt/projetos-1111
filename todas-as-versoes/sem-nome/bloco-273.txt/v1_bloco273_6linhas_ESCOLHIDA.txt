@@ -1,0 +1,6 @@
+# Todas requisições precisam deste header:
+Authorization: Bearer SEU_TOKEN_AQUI
+
+# Exemplo - Consultar processos:
+curl -X GET "https://homolog.eproc.tjmg.jus.br/pdjude/api/processos?numero=12345678-9.01.0001.5.00.0001" \
+  -H "Authorization: Bearer SEU_TOKEN"
