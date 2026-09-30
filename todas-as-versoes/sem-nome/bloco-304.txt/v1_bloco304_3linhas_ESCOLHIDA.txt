@@ -1,0 +1,3 @@
+❌ 401 Unauthorized → Certificado expirado/não cadastrado OAB
+❌ 403 Forbidden → CPF/OAB não habilitados PDJUD TJMG
+❌ 500 Server → Limpe cache PJePortable + tente novamente
