@@ -1,0 +1,3 @@
+POST /pje/api/v1/auth/certificado
+POST /eproc/api/v1/auth/token
+POST /sei/api/externo/auth/pdjude [file:1]
