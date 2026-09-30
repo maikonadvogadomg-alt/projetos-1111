@@ -1,0 +1,11 @@
+Sub ConsultarDataJud()
+    Dim http As Object
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    
+    http.Open "GET", "https://api-publica.datajud.cnj.jus.br/api_publica_trf1/_search?q=termo", False
+    http.setRequestHeader "Authorization", "Bearer SEU_TOKEN_AQUI"
+    http.setRequestHeader "Content-Type", "application/json"
+    
+    http.send
+    Debug.Print http.responseText  ' JSON com resultados
+End Sub
