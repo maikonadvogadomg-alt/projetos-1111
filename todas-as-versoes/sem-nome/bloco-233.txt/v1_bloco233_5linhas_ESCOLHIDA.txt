@@ -1,0 +1,5 @@
+1. Baixe em: https://www.pje.jus.br/pjeoffice
+2. Instale SafeSign (gerenciador token)
+3. Configure modo "Local" de assinatura
+4. Ative pop-ups no navegador
+5. Teste pré-requisitos no PJe/PDPJ
