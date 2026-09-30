@@ -1,0 +1,3 @@
+- Certificado digital A1 (.p12/.pfx) ou A3 (token/smartcard)
+- OAB/MG ativa com credenciamento eProc/PJe
+- Chave API do CNJ (solicitar via helpdesk@pje.jus.br)
