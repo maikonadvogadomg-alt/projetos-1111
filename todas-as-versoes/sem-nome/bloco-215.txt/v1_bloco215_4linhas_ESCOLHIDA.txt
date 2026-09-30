@@ -1,0 +1,4 @@
+Sub BuscarJurisTRF6(textoTese As String)
+    ' Conecta eproc → pesquisa tese → extrai acórdãos
+    ' Salva: Ac.nº | Ementa | Turma | %provimento
+End Sub
