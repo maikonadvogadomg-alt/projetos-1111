@@ -1,0 +1,5 @@
+POST /v1/processos         # Distribuição inicial
+POST /v1/peticao           # Protocolo de petição
+POST /v1/arquivo           # Upload de documento
+PUT  /v1/processo/{numero} # Andamento processual
+DELETE /v1/arquivo/{id}    # Exclusão de anexo
