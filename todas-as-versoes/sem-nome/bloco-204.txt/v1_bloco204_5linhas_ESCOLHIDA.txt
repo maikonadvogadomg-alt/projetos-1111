@@ -1,0 +1,5 @@
+1. Copie prompt acima
+2. Substitua [DADOS OBRIGATÓRIOS]
+3. Cole ChatGPT/GPT4/Claude
+4. Gere → Revise → Protocole eproc
+5. Automação: 92% eficácia TRF6[file:1]
