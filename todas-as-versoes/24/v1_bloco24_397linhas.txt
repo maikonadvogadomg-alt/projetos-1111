@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${projectName} - Gerenciador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #3b82f6;
+            font-size: 28px;
+        }
+
+        header .info {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .sidebar h2 {
+            color: #3b82f6;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #334155;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            padding: 10px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #1e40af;
+        }
+
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 11px;
+        }
+
+        .file-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            padding: 10px;
+            margin-bottom: 6px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .file-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .file-item.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .file-actions button {
+            padding: 2px 6px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 2px;
+            color: white;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .content {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #334155;
+        }
+
+        .content-header h3 {
+            color: #3b82f6;
+            font-size: 16px;
+        }
+
+        textarea {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 12px;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            resize: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 60px 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            color: #3b82f6;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            color: #e2e8f0;
+            font-size: 12px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .btn-cancel {
+            background: #ef4444;
+        }
+
+        .btn-cancel:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: #22c55e;
+        }
+
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .stats-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .stats-box strong {
+            color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .content {
+                height: auto;
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🚀 ${projectName}</h1>
+                <div class="info">ID: ${appId}</div>
+            </div>
+            <div class="info">
+                <div>API: ${apiMin} - ${apiMax}</div>
+                <div>Orientação: ${orientation}</div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <aside class="sidebar">
+                <h2>📁 Arquivos</h2>
+                
+                <div class="btn-group">
+                    <button class="btn btn-small" onclick="newFolder()">📁 Pasta</button>
+                    <button class="btn btn-small" onclick="newFile()">📄 Arquivo</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-small" onclick="showStats()">📊 Stats</button>
+                    <button class="btn btn-small" onclick="copyAll()">📋 Copiar</button>
+                </div>
+
+                <div class="file-list" id="fileList"></div>
+            </aside>
+
+            <main class="content">
+                <div class="content-header">
+                    <h3 id="fileName">Selecione um arquivo</h3>
+                </div>
+                <div id="editorContainer"></div>
+            </main>
+        </div>
+    </div>
+
+    <div id="folderModal" class="modal">
+        <div class="modal-content">
+            <h3>📁 Nova Pasta</h3>
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" id="folderInput" placeholder="Ex: src, assets">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel btn-small" onclick="closeModal('folderModal')">Cancelar</button>
+                <button class="btn btn-success btn-small" onclick="createFolder()">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <h3>📄 Novo Arquivo</h3>
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" id="fileInput" placeholder="Ex: index.html">
+            </div>
+            <div class="form-group">
+                <label>Tipo:</label>
+                <select id="typeSelect">
+                    <option>html</option>
+                    <option>css</option>
+                    <option>js</option>
+                    <option>json</option>
+                    <option>txt</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel btn-small" onclick="closeModal('fileModal')">Cancelar</button>
+                <button class="btn btn-success btn-small" onclick="createFile()">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <h3>📊 Estatísticas</h3>
+            <div id="statsContent"></div>
+            <div class="modal-actions">
+                <button class="btn btn-small" onclick="closeModal('statsModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let files = {
+            'index.html': '<!DOCTYPE html>\\n<html>\\n<head>\\n    <title>${projectName}</title>\\n</head>\\n<body>\\n    <h1>Bem-vindo!</h1>\\n</body>\\n</html>
