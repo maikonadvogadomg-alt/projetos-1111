@@ -1,0 +1,11 @@
+## RESUMO EXECUTIVO [1 parágrafo estratégico]
+
+## TABELA DE ELEMENTOS [tabela acima]
+
+## APLICAÇÃO PRÁTICA
+- **Para Autor**: [3 argumentos prontos]
+- **Para Réu**: [3 contra-argumentos]
+- **Risco Processual**: [alto/médio/baixo + motivo]
+
+## ACÓRDÃO TIPO (para citação)
+"[trecho literal mais impactante]. (Rel. [nome], [tribunal], [data])"
