@@ -1,0 +1,21 @@
+Sub PDJUD_JusBR_Real()
+    Dim http As Object, url As String, token As String
+    
+    ' ✅ TOKEN REAL PDPJ (substitua pelo seu)
+    token = "Bearer SEU_TOKEN_REAL_AQUI"
+    
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    url = "https://homolog.eproc.tjmg.jus.br/pdjude/api/processos"
+    
+    With http
+        .Open "GET", url, False
+        .setRequestHeader "Authorization", token
+        .setRequestHeader "Content-Type", "application/json"
+        .setRequestHeader "X-PDPJ-Source", "jus.br"
+        .send
+    End With
+    
+    Range("A1").Value = "✅ PDJUD RESPOSTA:"
+    Range("A2").Value = http.responseText
+    MsgBox "PDJUD conectado!" & vbCrLf & Left(http.responseText, 500)
+End Sub
