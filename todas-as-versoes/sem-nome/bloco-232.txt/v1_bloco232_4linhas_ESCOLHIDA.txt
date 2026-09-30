@@ -1,0 +1,4 @@
+✅ Domicílio Judicial Eletrônico: /domicilios
+✅ Credenciais: /credenciais
+✅ Processos: /processos/{numero}
+✅ Base URL: https://homolog.pdpj.jus.br/api/ ou https://prod.pdpj.jus.br/api/
