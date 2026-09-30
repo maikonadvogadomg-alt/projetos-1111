@@ -1,0 +1,2 @@
+TJRS: https://www.tjrs.jus.br/novo/api-de-dados-abertos/
+TRT2: Cadastro local para estatísticas
