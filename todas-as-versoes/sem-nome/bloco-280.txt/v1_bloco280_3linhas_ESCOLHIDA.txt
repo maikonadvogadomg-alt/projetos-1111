@@ -1,0 +1,3 @@
+# Salve o access_token e use em todas APIs:
+curl -X GET "https://homolog.eproc.tjmg.jus.br/pdjude/api/processos" \
+  -H "Authorization: Bearer SEU_TOKEN_AQUI"
