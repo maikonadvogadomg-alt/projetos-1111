@@ -1,0 +1,8 @@
+1. DA OMISSÃO QUANTO À TESE DE [TEMA]  
+A decisão omitiu análise do precedente vinculante:  
+"SÚMULA 7/STJ: [...] entende-se que [...]" [web:218]  
+
+Art. 489 CPC: "Não se considera fundamentada [...] omissão [...] de todos os argumentos"  
+
+PREMISSA: Decisão ignorou súmula vinculante  
+CONCLUSÃO: Embargos para suprir omissão [file:3]
