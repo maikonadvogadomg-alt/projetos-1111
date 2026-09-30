@@ -1,0 +1,1 @@
+openssl pkey -in maikon_pdjud.key -text -noout
